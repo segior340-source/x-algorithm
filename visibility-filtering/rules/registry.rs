@@ -20,7 +20,10 @@ use crate::rules::tweet_label_drops as tweet_label;
 use crate::rules::user_label_drops as user_label;
 use crate::rules::user_rules::{self as author, ProtectedAuthorDropRule};
 use crate::rules::{evaluate_rules, Rule, RuleContext, Verdict};
+use crate::rules::high_risk_tag_drops;
 use xai_visibility_filtering::models::FilteredReason;
+
+
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SafetyLevel {
