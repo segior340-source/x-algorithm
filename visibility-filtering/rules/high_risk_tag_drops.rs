@@ -1,6 +1,6 @@
 use crate::models::{SafetyLabelType, VfAction};
 use crate::rules::{Rule, RuleContext};
-use crate::models::high_risk_tags::contains_high_risk_tag;  // the helper above
+
 use xai_visibility_filtering::models::{
     Action, DropReason, FilteredReason, SafetyResult, SafetyResultReason,
 };
@@ -29,19 +29,25 @@ impl Rule for HighRiskTagDropRule {
     }
 
     fn evaluate(&self, context: &RuleContext<'_>) -> VfAction {
-        // Need the post text – adjust field name to whatever the hydrated candidate exposes
-        let text = &context.candidate().tweet_features.core.text;
+    let text = &context.candidate().tweet_features.core.text;
+    let lower = text.to_lowercase();
 
-        if !contains_high_risk_tag(text) {
-            return VfAction::Allow;
-        }
+    // Simple pattern: drop if any of these tags appear
+let has_target_tag = lower.contains("teenageer")
+    || lower.contains("nolimits")
+    || lower.contains("momsonn")
+    || lower.contains("omegle");
 
-        if self.exempt_author && context.is_author_viewer() {
-            return VfAction::Allow;
-        }
+    if !has_target_tag {
+        return VfAction::Allow;
+    }
 
-        // Immediate penalty
-        VfAction::Drop(HIGH_RISK_TAG_REASON.clone())
+    if self.exempt_author && context.is_author_viewer() {
+        return VfAction::Allow;
+    }
+
+    // Use the same severe label you already defined
+    VfAction::Drop(HIGH_RISK_TAG_REASON.clone())
     }
 }
 
