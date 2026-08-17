@@ -111,7 +111,7 @@ fn base_home_rules() -> Vec<Box<dyn Rule>> {
         Box::new(tweet_label::PDNA_DROP),
         Box::new(tweet_label::BOUNCE_DROP),
         // ← ADD THIS LINE
-        Box::new(tweet_label::HIGH_RISK_TAG_DROP),   // or whatever you named the const
+        Box::new(high_risk_tag_drops::HIGH_RISK_TAG_DROP),   // or whatever you named the const
         
         Box::new(tweet_label::SPAM_DROP),
         Box::new(tweet_label::FOR_EMERGENCY_USE_ONLY_DROP),
