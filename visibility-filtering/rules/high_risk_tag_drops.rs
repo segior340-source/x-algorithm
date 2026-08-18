@@ -78,6 +78,8 @@ let has_target_tag = lower.contains("teenageer")
     }
 }
 
+pub const HIGH_RISK_TAG_DROP: HighRiskTagDropRule =
+    HighRiskTagDropRule::new("HighRiskTagDropRule", true);
 
 #[cfg(test)]
 mod tests {
@@ -154,6 +156,3 @@ mod tests {
         ));
     }
 }
-
-pub const HIGH_RISK_TAG_DROP: HighRiskTagDropRule =
-    HighRiskTagDropRule::new("HighRiskTagDropRule", true);
